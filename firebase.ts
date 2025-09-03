@@ -1,17 +1,18 @@
-import { initializeApp } from "firebase/app"
+import { getApp, getApps, initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAeiZ-838gDATVqV5ykyCpevaWXkBMJqaM",
-  authDomain: "task-manager-ead57.firebaseapp.com",
-  projectId: "task-manager-ead57",
-  storageBucket: "task-manager-ead57.firebasestorage.app",
-  messagingSenderId: "544806961634",
-  appId: "1:544806961634:web:a8ec18ef16a718c84579bb"
-}
+  apiKey: "AIzaSyADF6L-8VVXYKSQWV4Kb3Z_C647mksjALI",
+  authDomain: "spend-wise-mobile-app.firebaseapp.com",
+  projectId: "spend-wise-mobile-app",
+  storageBucket: "spend-wise-mobile-app.firebasestorage.app",
+  messagingSenderId: "446942405590",
+  appId: "1:446942405590:web:8f2ff73cd2ba92ed70fa77"
+};
 
-const app = initializeApp(firebaseConfig)
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+
 
 export const auth = getAuth(app)
 export const db = getFirestore(app)
