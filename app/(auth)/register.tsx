@@ -15,6 +15,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { register } from "@/services/authService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const [email, setEmail] = useState<string>("");
@@ -37,10 +38,13 @@ const Register = () => {
     }
     setIsLoading(true);
     try {
-      await register(email, password);
+      const userCredential = await register(email, password);
 
-      await saveUserName(name);
-
+      if (userCredential.user) {
+        await updateProfile(userCredential.user, {
+          displayName: name,
+        });
+      }
       router.back();
     } catch (error: any) {
       let message = "";
