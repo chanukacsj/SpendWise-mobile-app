@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { login as loginUser } from "@/services/authService"; // your Firebase login helper
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -17,14 +18,40 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
-    console.log("handle",email,password)
+    console.log("handle", email, password);
     if (isLoading) return;
     if (!email || !password) {
-      Alert.alert("Login","Please fill in all fields");
+      Alert.alert("Login", "Please fill in all fields");
       return;
     }
     setIsLoading(true);
+    try {
+      await loginUser(email, password);
+      router.push("/home");
+    } catch (error: any) {
+  let message = "";
 
+  switch (error.code) {
+    case "auth/invalid-email":
+      message = "Please enter a valid email address.";
+      break;
+    case "auth/user-not-found":
+      message = "No account found with this email.";
+      break;
+    case "auth/wrong-password":
+      message = "Incorrect password. Please try again.";
+      break;
+    case "auth/network-request-failed":
+      message = "Network error. Please check your internet connection.";
+      break;
+    default:
+      message = "Something went wrong. Please try again.";
+  }
+
+  Alert.alert("Login Error", message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   const router = useRouter();
 
@@ -32,8 +59,16 @@ const Login = () => {
     <ScreenWrapper>
       <View>
         {/* Back Button */}
-        <TouchableOpacity onPress={()=> router.back()} className="bg-gray-800 rounded-2xl p-2 ms-4 w-[55px] mt-4 items-center">
-          <FontAwesome name="caret-left" size={35} color="white" className="mr-1" />
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="bg-gray-800 rounded-2xl p-2 ms-4 w-[55px] mt-4 items-center"
+        >
+          <FontAwesome
+            name="caret-left"
+            size={35}
+            color="white"
+            className="mr-1"
+          />
         </TouchableOpacity>
 
         {/* Welcome Text */}

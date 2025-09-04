@@ -1,6 +1,7 @@
-import { getApp, getApps, initializeApp } from "firebase/app"
-import { getAuth } from "firebase/auth"
-import { getFirestore } from "firebase/firestore"
+import { FirebaseApp, getApp, getApps, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyADF6L-8VVXYKSQWV4Kb3Z_C647mksjALI",
