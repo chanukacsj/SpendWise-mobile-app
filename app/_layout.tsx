@@ -5,6 +5,18 @@ import "./../global.css"
 import { AuthProvider } from "@/context/AuthContext"
 import { LoaderProvider } from "@/context/LoaderContext"
 
+
+const StackLayout = () => {
+  return (
+    <Stack>
+      <Stack.Screen
+        name="(modals)\profileModal"
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+    </Stack>
+  )
+}
+
 const RootLayout = () => {
   return (
     <LoaderProvider>

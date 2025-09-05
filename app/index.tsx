@@ -3,6 +3,7 @@ import React, { use, useEffect } from 'react'
 import { Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
+
 const index = () => {
     const router = useRouter();
     useEffect(() => {

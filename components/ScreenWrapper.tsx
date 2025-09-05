@@ -5,7 +5,7 @@ import { ScreenWrapperProps } from '@/type';
 const { height } = Dimensions.get('window');
 
 const ScreenWrapper = ({ style, children }: ScreenWrapperProps) => {
-  let paddingTop = Platform.OS === 'ios' ? height * 0.04 : 50;
+let paddingTop = Platform.OS === 'ios' ? height * 0.04 : StatusBar.currentHeight || 0;
 
   return (
     <View 
