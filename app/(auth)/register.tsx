@@ -72,15 +72,6 @@ const Register = () => {
     }
   };
 
-  const saveUserName = async (username: string) => {
-    try {
-      await AsyncStorage.setItem("username", username);
-      console.log("Username saved successfully!");
-    } catch (e) {
-      console.error("Error saving username:", e);
-    }
-  };
-
   const router = useRouter();
 
   return (

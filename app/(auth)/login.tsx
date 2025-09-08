@@ -9,16 +9,18 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { login as loginUser } from "@/services/authService"; // your Firebase login helper
+import { useAuth } from "@/context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const {login: loginUser} = useAuth();
 
   const handleSubmit = async () => {
     console.log("handle", email, password);

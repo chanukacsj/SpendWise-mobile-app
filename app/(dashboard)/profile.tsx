@@ -93,7 +93,7 @@ const ProfileScreen = () => {
             <View className="mt-5 mb-7">
               {/* userImage */}
               <Image
-                source={getProfileImage(user?.photoURL)}
+                source={getProfileImage(user?.image)}
                 className="w-[100px] h-[100px] rounded-full mx-auto bg-white "
                 style={{ width: 100, height: 100 }}
                 resizeMode="cover"
@@ -106,7 +106,7 @@ const ProfileScreen = () => {
                   className=" text-center font-bold"
                   style={{ fontSize: 24, color: "#fafafa" }}
                 >
-                  {auth.currentUser?.displayName || "Guest"}
+                  {user?.name|| "Guest"}
                 </Text>
                 <Text
                   className=" font-light text-center"
