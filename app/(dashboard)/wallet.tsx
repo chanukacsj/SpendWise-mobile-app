@@ -1,9 +1,22 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import React from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import * as Icons from 'phosphor-react-native';
 import { router } from "expo-router";
-const SettingScreen = () => {
+import useFetchData from "@/hooks/useFetchData";
+import { WalletType } from "@/type";
+import { orderBy, where } from "firebase/firestore";
+import { useAuth } from "@/context/AuthContext";
+import WalletListItem from "@/components/WalletListItem";
+const Wallet = () => {
+
+  const {user} = useAuth();
+  const {data:wallets,error,loading} = useFetchData<WalletType>("wallets",[
+    where("uid","==",user?.uid),
+    orderBy("created","desc"),
+  ])
+
+  console.log("wallets",wallets.length);
   const getTotalBalance = () => {
     return 2010;
   };
@@ -29,13 +42,19 @@ const SettingScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* content inside wallet view */}
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-gray-500">No wallets yet</Text>
-        </View>
+        
+       
+        <FlatList data={wallets} 
+        renderItem={({item, index}) => {
+        return(
+            <WalletListItem item={item} index={index} router={router} />
+        );
+        }}
+        />
+        
       </View>
     </ScreenWrapper>
   );
 };
 
-export default SettingScreen;
+export default Wallet;

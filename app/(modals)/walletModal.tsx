@@ -22,6 +22,7 @@ import { updateUser } from "@/services/userService";
 import { updateUserProfile } from "@/services/authService";
 import { User } from "firebase/auth";
 import ImageUpload from "@/components/imageUpload";
+import { createOrUpdateWallet } from "@/services/walletService";
 
 const walletModal = () => {
   const { user, updateUserData } = useAuth();
@@ -33,37 +34,29 @@ const walletModal = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const OnPickImage = async () => {
-    console.log("OnPickImage");
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      aspect: [4, 3],
-      quality: 0.5,
-    });
-
-    if (!result.canceled) {
-      // setUserData({...userData,image: result.assets[0]});
-    }
-  };
-
   const onSubmit = async () => {
     let { name, image } = wallet;
-    if (!name.trim) {
-      Alert.alert("User", "Please fill in the name field");
+    if (!name.trim || !image) {
+      Alert.alert("Wallet", "Please fill in the name field");
       return;
     }
 
     console.log("hee");
 
+    const data: WalletType = {
+      name,
+      image,
+      uid: user?.uid
+    };
+
+
     setLoading(true);
-    const res = await updateUser(user?.uid as string, wallet);
+    const res = await createOrUpdateWallet(data);
     setLoading(false);
     if (res.success) {
-      updateUserData(user?.uid as string);
-      Alert.alert("User", "Profile updated successfully");
       router.back();
     } else {
-      Alert.alert("User", "Something went wrong");
+      Alert.alert("Wallet", res.message);
     }
   };
 

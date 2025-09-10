@@ -8,6 +8,7 @@ export const uploadFileToCloudinary = async (
   folderName: string
 ): Promise<ResponseType> => {
   try {
+    if (!file) return {success:true, data:null};
     if (typeof file === "string") {
       return { success: true, data: file, message: "File is already a URL" };
     }
@@ -46,9 +47,6 @@ export const uploadFileToCloudinary = async (
     return { success: false, message: error.message || "Failed to upload file", data: null };
   }
 };
-
-
-  
 
 export const getProfileImage = (file: any) => {
   if (file && typeof file === "string") return { uri: file };

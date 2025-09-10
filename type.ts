@@ -54,7 +54,7 @@ export type WalletType = {
   totalExpenses?: number;
   image: any;
   uid?: string;
-  created?: string;
+  created?: Date;
 }
 
 export type ImageUplaodProps = {
