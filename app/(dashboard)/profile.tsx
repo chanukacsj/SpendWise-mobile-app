@@ -78,7 +78,7 @@ const ProfileScreen = () => {
   }
 }
   return (
-    <ScreenWrapper>
+    <ScreenWrapper style={{backgroundColor:"black"}}>
       <View>
         <View className="position-absolute top-2">
           <Animatable.Text 

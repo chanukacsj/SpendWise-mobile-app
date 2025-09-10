@@ -13,6 +13,10 @@ const StackLayout = () => {
         name="(modals)\profileModal"
         options={{ headerShown: false, presentation: "modal" }}
       />
+      <Stack.Screen
+        name="(modals)\walletModal"
+        options={{ headerShown: false, presentation: "modal" }}
+      />
     </Stack>
   )
 }

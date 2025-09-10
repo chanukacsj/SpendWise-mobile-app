@@ -46,3 +46,23 @@ export type AuthContextType = {
   updateUserData:(userId:string)=>Promise<void>;
 };
 
+export type WalletType = {
+  id?: string;
+  name: string;
+  amount?: number;
+  totalIncome?: number;
+  totalExpenses?: number;
+  image: any;
+  uid?: string;
+  created?: string;
+}
+
+export type ImageUplaodProps = {
+  file?: any;
+  onSelect: (file: any) => void;
+  onClear?: () => void;
+  conrainerStyle?: ViewStyle;
+  imageStyle?: ViewStyle;
+  placeholder?: string;
+}
+
