@@ -44,7 +44,7 @@ const HomeCard = () => {
                        <Icons.ArrowUpIcon color="black" size={15} weight="bold"/> 
                     </View>
                     <Text className="text-black text-lg font-bold">
-                        Income
+                        Expense
                     </Text>
                 </View>
                 <View>

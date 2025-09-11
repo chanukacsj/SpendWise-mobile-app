@@ -35,8 +35,11 @@ const HomeScreen = () => {
         <View>
           <HomeCard/>
         </View>
-        <TransactionList data ={[1,2,3]} loading = {false} emptyListMessage="No recent transactions!"  title="Recent Transactions"/>
+        <TransactionList data ={[1,2,3,4,5,6]} loading = {false} emptyListMessage="No recent transactions!"  title="Recent Transactions"/>
       </ScrollView>
+      <TouchableOpacity className="absolute bottom-4 right-4 bg-[#404040] p-2 rounded-full">
+        <Icons.PlusIcon color="white" size={40} weight="bold"/>
+      </TouchableOpacity>
       </View>
     </ScreenWrapper>
   );

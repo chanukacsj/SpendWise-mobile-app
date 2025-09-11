@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import { Icon } from "phosphor-react-native";
 import { ViewStyle } from "react-native";
 export type ScreenWrapperProps = {
     style?: ViewStyle;
@@ -86,4 +87,15 @@ export type TransactionType = {
   type: string;
   uid?: string;
   walletId?: string;
+}
+export type CategoryType = {
+  label: string;
+  value: string;
+  icon: Icon;
+  bgColor: string;
+
+}
+
+export type ExpenseCategoriesType = {
+  [key:string]:CategoryType
 }

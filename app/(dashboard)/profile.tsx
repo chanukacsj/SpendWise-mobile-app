@@ -54,7 +54,6 @@ const ProfileScreen = () => {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
         {
@@ -72,8 +71,7 @@ const ProfileScreen = () => {
   const handlePress = async (item: accountOptionType)=>{
     if(item.title === 'Logout'){
       showLogoutAlert();
-  }
-  if(item.routeName){
+  }else if(item.routeName){
     router.push(item.routeName);
   }
 }

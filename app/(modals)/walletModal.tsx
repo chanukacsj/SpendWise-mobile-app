@@ -107,7 +107,6 @@ const walletModal = () => {
 
   return (
     <View className="flex-1 bg-black">
-      {/* Animated Modal Body */}
       <Animatable.View
         animation="slideInUp"
         duration={500}
