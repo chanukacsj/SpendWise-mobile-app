@@ -17,9 +17,12 @@ const Wallet = () => {
   ])
 
   console.log("wallets",wallets.length);
-  const getTotalBalance = () => {
-    return 2010;
-  };
+  const getTotalBalance = () => 
+    wallets.reduce((total, item)=>{
+      total = total + (item.amount || 0);
+      return total;
+    },0)
+  
 
   return (
     <ScreenWrapper style={{ backgroundColor: "black" }}>

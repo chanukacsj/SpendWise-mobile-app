@@ -65,4 +65,25 @@ export type ImageUplaodProps = {
   imageStyle?: ViewStyle;
   placeholder?: string;
 }
-
+export type TransactionListType = {
+  data: TransactionType[];
+  title?: string;
+  loading?: boolean;
+  emptyListMessage?: string;
+}
+export type TransactionItemProps = {
+  item: TransactionType;
+  index: number;
+  handleClick: Function
+}
+export type TransactionType = {
+  id?: string;
+  amount: number;
+  category?: string;
+  date: Date;
+  description?: string;
+  image?: any;
+  type: string;
+  uid?: string;
+  walletId?: string;
+}

@@ -31,7 +31,6 @@ export const uploadFileToCloudinary = async (
 
       console.log("uploaded file result", res.data);
 
-      // Type assertion to satisfy TS
       const secureUrl = (res.data as { secure_url?: string }).secure_url;
 
       return {

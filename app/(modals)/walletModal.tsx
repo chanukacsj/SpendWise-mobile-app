@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { router, useRouter } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import * as Animatable from "react-native-animatable";
 import * as Icons from "phosphor-react-native";
 import { FontAwesome } from "@expo/vector-icons";
@@ -22,7 +22,7 @@ import { updateUser } from "@/services/userService";
 import { updateUserProfile } from "@/services/authService";
 import { User } from "firebase/auth";
 import ImageUpload from "@/components/imageUpload";
-import { createOrUpdateWallet } from "@/services/walletService";
+import { createOrUpdateWallet, deleteWallet } from "@/services/walletService";
 
 const walletModal = () => {
   const { user, updateUserData } = useAuth();
@@ -33,6 +33,18 @@ const walletModal = () => {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const oldWallet: { name: string; image: string; id: string } =
+    useLocalSearchParams();
+
+  useEffect(() => {
+    if (oldWallet?.id) {
+      setWallet({
+        name: oldWallet?.name,
+        image: oldWallet?.image,
+      });
+    }
+  }, []);
 
   const onSubmit = async () => {
     let { name, image } = wallet;
@@ -46,18 +58,51 @@ const walletModal = () => {
     const data: WalletType = {
       name,
       image,
-      uid: user?.uid
+      uid: user?.uid,
     };
 
+    if (oldWallet?.id) data.id = oldWallet?.id;
 
     setLoading(true);
     const res = await createOrUpdateWallet(data);
     setLoading(false);
     if (res.success) {
-      router.back();
+      router.push("/(dashboard)/wallet");
     } else {
       Alert.alert("Wallet", res.message);
     }
+  };
+
+  const onDelete = async () => {
+    console.log("onDelete", oldWallet?.id);
+    if(!oldWallet?.id) return;
+    setLoading(true);
+    const res = await deleteWallet(oldWallet?.id);
+    setLoading(false);
+    if (res.success) {
+      router.push("/(dashboard)/wallet");
+    }else{
+      Alert.alert("Wallet", res.message);
+    }
+  };
+
+  const showDeleteAlert = () => {
+    Alert.alert(
+      "Confirm",
+      "Are you sure you want to delete this wallet?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => onDelete(),
+          style: "destructive",
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -90,7 +135,7 @@ const walletModal = () => {
             duration={600}
             className="text-xl font-bold text-white"
           >
-            New Wallet
+            {oldWallet?.id ? "Update Wallet" : "New Wallet"}
           </Animatable.Text>
         </View>
 
@@ -126,10 +171,23 @@ const walletModal = () => {
           </Animatable.View>
         </ScrollView>
 
-        {/* Save Button */}
-        <Animatable.View animation="bounceIn" delay={600}>
+        {/* Save Button and delete Button */}
+        <Animatable.View
+          animation="bounceIn"
+          delay={600}
+          className="flex-row mt-6 items-center space-x-3"
+        >
+          {oldWallet?.id && !loading && (
+            <TouchableOpacity
+              className=" mr-3 p-3 rounded-2xl bg-red-500 shadow-md items-center justify-center"
+              onPress={showDeleteAlert}
+            >
+              <FontAwesome name="trash" size={28} color="white" />
+            </TouchableOpacity>
+          )}
+
           <TouchableOpacity
-            className={`p-4 rounded-2xl mt-6 shadow-md ${
+            className={`flex-1 p-4 rounded-2xl shadow-md items-center justify-center ${
               loading ? "bg-gray-400" : "bg-green-500"
             }`}
             activeOpacity={0.8}
@@ -140,7 +198,7 @@ const walletModal = () => {
               <ActivityIndicator size="small" color="#fff" />
             ) : (
               <Text className="text-center text-white font-semibold text-base">
-                Add Wallet
+                {oldWallet?.id ? "Update Wallet" : "Add Wallet"}
               </Text>
             )}
           </TouchableOpacity>
