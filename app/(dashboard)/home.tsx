@@ -9,6 +9,7 @@ import * as Icons from 'phosphor-react-native';
 import HomeCard from "@/components/HomeCard";
 import { Transaction } from "firebase/firestore";
 import TransactionList from "@/components/TransactionList";
+import { router } from "expo-router";
 
 const HomeScreen = () => {
   const { user } = useAuth();
@@ -37,7 +38,7 @@ const HomeScreen = () => {
         </View>
         <TransactionList data ={[1,2,3,4,5,6]} loading = {false} emptyListMessage="No recent transactions!"  title="Recent Transactions"/>
       </ScrollView>
-      <TouchableOpacity className="absolute bottom-4 right-4 bg-[#404040] p-2 rounded-full">
+      <TouchableOpacity className="absolute bottom-4 right-4 bg-[#404040] p-2 rounded-full" onPress={()=>router.push('../(modals)/transactionModal')}>
         <Icons.PlusIcon color="white" size={40} weight="bold"/>
       </TouchableOpacity>
       </View>

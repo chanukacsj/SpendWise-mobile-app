@@ -17,7 +17,12 @@ const StackLayout = () => {
         name="(modals)\walletModal"
         options={{ headerShown: false, presentation: "modal" }}
       />
+      <Stack.Screen
+        name="(modals)\TransactionModal"
+        options={{ headerShown: false, presentation: "modal" }}
+      />
     </Stack>
+    
   )
 }
 
