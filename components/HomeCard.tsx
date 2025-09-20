@@ -1,8 +1,36 @@
 import { View, Text, ImageBackground } from "react-native";
 import React from "react";
 import * as Icons from "phosphor-react-native";
+import useFetchData from "@/hooks/useFetchData";
+import { WalletType } from "@/type";
+import { orderBy, where } from "firebase/firestore";
+import { useAuth } from "@/context/AuthContext";
+
 
 const HomeCard = () => {
+
+    const { user } = useAuth();
+  
+
+  const {
+      data: wallets,
+      error,
+      loading: walletLoading,
+    } = useFetchData<WalletType>("wallets", [
+      where("uid", "==", user?.uid),
+      orderBy("created", "desc"),
+    ]);
+  
+    const getTotals = () =>{
+     return wallets.reduce((totals:any, item: WalletType)=>{
+        totals.balance = totals.balance + Number(item.amount);
+        totals.income = totals.income + Number(item.totalIncome);
+        totals.expenses = totals.expenses + Number(item.totalExpenses);
+        return totals;
+  
+      },{balance:0 , income: 0, expenses: 0})
+    }
+
   return (
     <ImageBackground
       source={require("../assets/images/card.png")}
@@ -17,7 +45,7 @@ const HomeCard = () => {
             <Text className="text-black text-xl font-bold">Total Balance</Text>
             <Icons.DotsThreeOutlineIcon color="black" size={25} weight="bold" />
           </View>
-          <Text className="text-black text-4xl font-extrabold">$2345.22</Text>
+          <Text className="text-black text-4xl font-extrabold">  LKR {getTotals()?.balance?.toFixed(2)}</Text>
         </View>
         {/* expense and income */}
         <View className="flex-row mt-12 justify-between items-center">
@@ -33,7 +61,7 @@ const HomeCard = () => {
                 </View>
                 <View>
                     <Text className="text-green-500 p-2 text-xl font-extrabold">
-                        $2345.22
+                          LKR {getTotals()?.income?.toFixed(2)}
                     </Text>
                 </View>
             </View>
@@ -49,7 +77,7 @@ const HomeCard = () => {
                 </View>
                 <View>
                     <Text className="text-red-500 p-2 text-xl font-extrabold">
-                        $2345.22
+                        LKR {getTotals()?.expenses?.toFixed(2)}
                     </Text>
                 </View>
             </View>

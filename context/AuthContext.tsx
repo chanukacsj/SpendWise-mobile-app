@@ -13,6 +13,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth,(firebaseUser) => {
+      console.log("unsub")
       if (firebaseUser) {
         setUser({
           uid: firebaseUser?.uid,

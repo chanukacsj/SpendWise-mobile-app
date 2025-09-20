@@ -12,7 +12,7 @@ let paddingTop = Platform.OS === 'ios' ? height * 0.04 : StatusBar.currentHeight
       style={[{ paddingTop }, style]} 
       className="flex-1 bg-[#171717]"
     >
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content" backgroundColor={"171717"}/>
       {children}
     </View>
   );

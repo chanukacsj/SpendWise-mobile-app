@@ -52,7 +52,7 @@ const WalletListItem = ({
 
         <View className="flex-row items-center space-x-2">
           <Text className="text-green-400 text-lg mr-1 font-semibold">
-            ${item.amount?.toFixed(2) || "0.00"}
+            LKR {item.amount?.toFixed(2) || "0.00"}
           </Text>
           <Icons.CaretRight size={24} color="white" weight="bold" />
         </View>

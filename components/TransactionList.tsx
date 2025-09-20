@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { Transaction } from "firebase/firestore";
+import { Timestamp, Transaction } from "firebase/firestore";
 import { TransactionItemProps, TransactionListType } from "@/type";
 import { FlashList } from "@shopify/flash-list";
-import { expenseCategories } from "@/config/data";
+import { expenseCategories, incomeCategory } from "@/config/data";
 import * as Animatable from "react-native-animatable";
 
 const TransactionList = ({
@@ -45,11 +45,29 @@ const TransactionItem = ({
   index,
   handleClick,
 }: TransactionItemProps) => {
-  let category = expenseCategories["utilities"];
+  let category =
+    item?.type == "income" ? incomeCategory : expenseCategories[item.category!];
   const IconComponent = category.icon;
+
+  const date = (item?.date as unknown as Timestamp)
+    ?.toDate()
+    ?.toLocaleDateString("en-LK", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+
   return (
-    <Animatable.View animation="fadeInDown" delay={index * 80} duration={400} className="flex-row items-center bg-[#262626] mt-3 p-4 rounded-xl justify-between">
-      <TouchableOpacity className="flex-row items-center gap-4 justify-content-between" onPress={()=> handleClick(item)}>
+    <Animatable.View
+      animation="fadeInDown"
+      delay={index * 80}
+      duration={400}
+      className="flex-row items-center bg-[#262626] mt-3 p-4 rounded-xl justify-between"
+    >
+      <TouchableOpacity
+        className="flex-row items-center gap-4 justify-content-between"
+        onPress={() => handleClick(item)}
+      >
         <View
           style={{ backgroundColor: category.bgColor }}
           className="bg-[#262626] p-2 rounded-full"
@@ -61,18 +79,19 @@ const TransactionItem = ({
             {category.label}
           </Text>
           <Text className="text-white text-md font-light" numberOfLines={1}>
-            paid
-            {/* {item?.description} */}
+            {item?.description}
           </Text>
         </View>
         <View>
-          <Text className="text-red-500 text-xl font-bold">
-            {/* ${item?.amount} */}
-          - $12
-            </Text>
-            <Text className="text-white text-md font-light">
-              29 sep
-            </Text>
+          <Text
+            className={`text-xl font-bold ${
+              item?.type === "income" ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {`${item?.type === "income" ? "+ LKR" : "- LKR"} ${item?.amount}`}
+          </Text>
+
+          <Text className="text-white text-md font-light">{date}</Text>
         </View>
       </TouchableOpacity>
     </Animatable.View>

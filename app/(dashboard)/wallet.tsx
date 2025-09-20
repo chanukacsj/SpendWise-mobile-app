@@ -28,8 +28,8 @@ const Wallet = () => {
     <ScreenWrapper style={{ backgroundColor: "black" }}>
       {/* balance view */}
       <View className="items-center mt-10">
-        <Text className="text-white font-medium text-5xl">
-          ${getTotalBalance().toFixed(2)}
+        <Text className="text-white font-medium text-4xl">
+          LKR {getTotalBalance().toFixed(2)}
         </Text>
         <Text className="text-gray-400 font-extralight text-2xl mt-2">
           Total Balance

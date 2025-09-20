@@ -81,7 +81,7 @@ export type TransactionType = {
   id?: string;
   amount: number;
   category?: string;
-  date: Date;
+  date: Date; 
   description?: string;
   image?: any;
   type: string;
