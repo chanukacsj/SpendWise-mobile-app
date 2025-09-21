@@ -99,3 +99,5 @@ export type CategoryType = {
 export type ExpenseCategoriesType = {
   [key:string]:CategoryType
 }
+
+

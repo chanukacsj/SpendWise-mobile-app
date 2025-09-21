@@ -1,10 +1,11 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { Timestamp, Transaction } from "firebase/firestore";
-import { TransactionItemProps, TransactionListType } from "@/type";
+import { TransactionItemProps, TransactionListType, TransactionType } from "@/type";
 import { FlashList } from "@shopify/flash-list";
 import { expenseCategories, incomeCategory } from "@/config/data";
 import * as Animatable from "react-native-animatable";
+import { router } from "expo-router";
 
 const TransactionList = ({
   data,
@@ -12,8 +13,21 @@ const TransactionList = ({
   loading,
   emptyListMessage,
 }: TransactionListType) => {
-  const handleClick = () => {
-    console.log(" handleClick");
+  const handleClick = (item: TransactionType) => {
+    router.push({
+      pathname: "/(modals)/transactionModal",
+      params: {
+        id: item?.id,
+        type: item?.type,
+        amount: item?.amount,
+        description: item?.description,
+        category: item?.category,
+        date: (item?.date as unknown as Timestamp)?.toDate()?.toISOString(),
+        walletId: item?.walletId,
+        image: item?.image,
+        uid: item?.uid,
+      },
+    })
   };
 
   return (
