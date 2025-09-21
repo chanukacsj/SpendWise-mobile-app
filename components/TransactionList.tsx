@@ -31,7 +31,7 @@ const TransactionList = ({
   };
 
   return (
-    <View className="gap-2 ml-4">
+    <View className="gap-2">
       {title && <Text className="text-white text-lg font-bold">{title}</Text>}
       <View className="min-h-[100px]">
         <FlashList

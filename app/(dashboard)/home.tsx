@@ -34,7 +34,7 @@ const HomeScreen = () => {
 
   return (
     <ScreenWrapper>
-      <View className="flex-1">
+      <View className="flex-1 px-4">
         {/* header */}
         <View className="flex-row items-center justify-between">
           <View className="gap-1 px-4">

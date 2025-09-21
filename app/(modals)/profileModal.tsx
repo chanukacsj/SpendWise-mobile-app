@@ -73,7 +73,7 @@ const OnPickImage = async () => {
       updateUserData(user?.uid as string);
       console.log("updated",userData.name);
       Alert.alert("User","Profile updated successfully");
-      router.back();
+      router.push("/(dashboard)/profile");
     }else{
       Alert.alert("User","Something went wrong");
     }
@@ -92,7 +92,8 @@ const OnPickImage = async () => {
         <View className="flex-row items-center justify-center mb-6 relative top-8">
           {/* Back Button */}
           <TouchableOpacity
-            onPress={() => router.back()}
+            onPress={() => router.push("/(dashboard)/profile")}
+
             className="absolute left-1 bg-gray-600 rounded-2xl p-2  w-[45px]  items-center"
           >
             <FontAwesome
