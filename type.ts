@@ -29,6 +29,7 @@ export type ResponseType = {
 export type AuthContextType = { 
   user: UserType | null;
   setUser: Function;
+  loading: boolean;
   login:(
     email: string,
     password: string

@@ -12,8 +12,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+     setLoading(true);
     const unsubscribe = onAuthStateChanged(auth,(firebaseUser) => {
-      console.log("unsub")
+      console.log("unsubscribe", firebaseUser);
       if (firebaseUser) {
         setUser({
           uid: firebaseUser?.uid,
@@ -32,9 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
 
+
+
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
+      console.log("login", email, password);
       const res = await signInWithEmailAndPassword(auth, email, password);
 
       // update state
@@ -47,8 +51,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return { success: true };
     } catch (error: any) {
-      console.error(error);
       let msg = error.message;
+            console.log("error massage",msg);
+
+     if(msg.includes('(auth/invalid-credential)')) msg = "Invalid email or password";
+     if(msg.includes('(auth/user-not-found)')) msg = "User not found";
+     if(msg.includes('(auth/invalid-email)')) msg = "Invalid email";
+
+
+
       return { success: false, msg };
     } finally {
       setLoading(false);
@@ -76,8 +87,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return { success: true };
     } catch (error: any) {
-      console.error(error);
       let msg = error.message;
+      if(msg.includes('(auth/email-already-in-use)')) msg = "Email already in use";
+      if(msg.includes('(auth/invalid-email)')) msg = "Invalid email";
+      if(msg.includes('(auth/weak-password)')) msg = "Weak password";
       return { success: false, msg };
     } finally {
       setLoading(false);
@@ -113,6 +126,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     register,
     updateUserData,
+    loading,
+    
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

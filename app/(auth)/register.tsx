@@ -13,9 +13,11 @@ import React, { useState } from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { register } from "@/services/authService";
+// import { register } from "@/services/authService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateProfile } from "firebase/auth";
+import { useAuth } from "@/context/AuthContext";
+
 
 const Register = () => {
   const [email, setEmail] = useState<string>("");
@@ -23,7 +25,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const { register: registerUser } = useAuth();
   const handleSubmit = async () => {
     console.log("handle", email, password);
     if (isLoading) return;
@@ -37,39 +39,17 @@ const Register = () => {
       return;
     }
     setIsLoading(true);
-    try {
-      const userCredential = await register(email, password);
+      const userCredential = await registerUser(email, password, name);
 
-      if (userCredential.user) {
-        await updateProfile(userCredential.user, {
-          displayName: name,
-        });
-      }
-      router.back();
-    } catch (error: any) {
-      let message = "";
-
-      switch (error.code) {
-        case "auth/email-already-in-use":
-          message = "This email is already registered. Try logging in.";
-          break;
-        case "auth/invalid-email":
-          message = "Please enter a valid email address.";
-          break;
-        case "auth/weak-password":
-          message = "Password should be at least 6 characters.";
-          break;
-        case "auth/network-request-failed":
-          message = "Network error. Check your internet connection.";
-          break;
-        default:
-          message = "Something went wrong. Please try again.";
-      }
-
-      Alert.alert("Sign up Error", message);
-    } finally {
       setIsLoading(false);
-    }
+      if(!userCredential.success){
+        Alert.alert("Sign up", userCredential.msg);
+      }
+
+      
+
+      
+
   };
 
   const router = useRouter();

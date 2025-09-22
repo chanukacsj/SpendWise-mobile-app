@@ -20,43 +20,31 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const {login: loginUser} = useAuth();
+  const { login: loginUser } = useAuth();
 
   const handleSubmit = async () => {
     console.log("handle", email, password);
     if (isLoading) return;
-    if (!email || !password) {
+
+    const trimmedEmail = email?.trim();
+    const trimmedPassword = password?.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
       Alert.alert("Login", "Please fill in all fields");
       return;
     }
     setIsLoading(true);
-    try {
-      await loginUser(email, password);
-      router.push("/home");
-    } catch (error: any) {
-      let message = "";
-
-      switch (error.code) {
-        case "auth/invalid-email":
-          message = "Please enter a valid email address.";
-          break;
-        case "auth/user-not-found":
-          message = "No account found with this email.";
-          break;
-        case "auth/wrong-password":
-          message = "Incorrect password. Please try again.";
-          break;
-        case "auth/network-request-failed":
-          message = "Network error. Please check your internet connection.";
-          break;
-        default:
-          message = "Something went wrong. Please try again.";
+      const res =await loginUser(trimmedEmail, trimmedPassword);
+          setIsLoading(false);
+      if(!res.success){
+        Alert.alert("Login", res.msg);
+        return;
+      }
+      if(res.success){
+        router.push("/(dashboard)/home");
       }
 
-      Alert.alert("Login Error", message);
-    } finally {
-      setIsLoading(false);
-    }
+   
   };
   const router = useRouter();
 
