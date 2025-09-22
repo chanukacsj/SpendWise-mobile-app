@@ -41,3 +41,40 @@ Make sure you have installed the following:
    ```bash
    git clone https://github.com/chanukacsj/SpendWise-mobile-app.git
    cd SpendWise-mobile-app
+
+2. Install Dependencies
+   ```bash
+   npm install
+
+3. Install AsyncStorage
+   ```bash
+   npm install @react-native-async-storage/async-storage
+
+4. Configure Firebase
+
+   Create a Firebase project at Firebase Console
+   
+   Enable Email/Password Authentication
+   
+   Create Firestore database
+   
+   Copy Firebase config to firebase.ts:
+    ```bash
+      const firebaseConfig = {
+      
+        apiKey: "YOUR_API_KEY",
+      
+        authDomain: "YOUR_AUTH_DOMAIN",
+      
+        projectId: "YOUR_PROJECT_ID",
+      
+        storageBucket: "YOUR_STORAGE_BUCKET",
+      
+        messagingSenderId: "YOUR_SENDER_ID",
+      
+        appId: "YOUR_APP_ID",
+      };
+
+6. Start the App
+   ```bash
+   npm start
