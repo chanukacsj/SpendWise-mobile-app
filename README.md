@@ -78,3 +78,17 @@ Make sure you have installed the following:
 6. Start the App
    ```bash
    npm start
+
+   ## 🎥 Demo Video
+
+Watch the app demo here:
+
+https://youtu.be/8_Q4LdwnaU0
+
+## 📲 Download
+
+You can download the latest Android build (APK) here:
+
+[Download APK](https://drive.google.com/file/d/1L7RqT51nN7eYosCXBYh2c4eUPmgrgiLd/view?usp=sharing)
+
+
